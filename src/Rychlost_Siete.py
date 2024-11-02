@@ -3,6 +3,7 @@ from tkinter import ttk
 import speedtest
 import threading
 import time
+from datetime import datetime 
 
 def zobraz_rychlost_internetu(frame):
     # Vyčistenie Mainu
@@ -38,7 +39,7 @@ def zobraz_rychlost_internetu(frame):
     ttk.Label(historia_frame, text="História:", font=('Arial', 14), background="#2E2E2E", foreground="white").pack()
 
     # História Listbox
-    historia_listbox = tk.Listbox(historia_frame, font=('Arial', 12), bg="#1C1C1C", fg="white", height=10, width=50)
+    historia_listbox = tk.Listbox(historia_frame, font=('Arial', 12), bg="#1C1C1C", fg="white", height=10, width=64)
     historia_listbox.pack(pady=5)
 
     # Loading
@@ -72,8 +73,8 @@ def zobraz_rychlost_internetu(frame):
             label_upload_value.config(text=f"{upload_speed:.2f} Mbps")
             
             # Pridanie Výsledku do tej Histórie
-            
-            historia_listbox.insert(tk.END, f"Sťahovanie: {download_speed:.2f} Mbps | Odosielanie: {upload_speed:.2f} Mbps")
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            historia_listbox.insert(tk.END, f"[{current_time}]      Sťahovanie: {download_speed:.2f} Mbps | Odosielanie: {upload_speed:.2f} Mbps")
         except Exception as e:
             label_download_value.config(text="Chyba pri meraní")
             label_upload_value.config(text="Chyba pri meraní")
