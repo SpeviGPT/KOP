@@ -53,6 +53,7 @@ def zobraz_rychlost_internetu(frame):
     # Meranie Rýchlosti
     def meraj_rychlost():
         stop_loading[0] = False
+        tlacidlo_meraj.config(state="disabled", text="Prebieha Meranie", bg="gray")
         label_download_value.config(text="")  
         label_upload_value.config(text="")
 
@@ -67,17 +68,19 @@ def zobraz_rychlost_internetu(frame):
             st.get_best_server()
             download_speed = st.download() / (1024 * 1024)
             upload_speed = st.upload() / (1024 * 1024)
-            label_download_value.config(text=f"{download_speed:.2f} MB/s")
-            label_upload_value.config(text=f"{upload_speed:.2f} MB/s")
+            label_download_value.config(text=f"{download_speed:.2f} Mbps")
+            label_upload_value.config(text=f"{upload_speed:.2f} Mbps")
             
             # Pridanie Výsledku do tej Histórie
-            historia_listbox.insert(tk.END, f"Sťahovanie: {download_speed:.2f} MB/s | Odosielanie: {upload_speed:.2f} MB/s")
+            
+            historia_listbox.insert(tk.END, f"Sťahovanie: {download_speed:.2f} Mbps | Odosielanie: {upload_speed:.2f} Mbps")
         except Exception as e:
             label_download_value.config(text="Chyba pri meraní")
             label_upload_value.config(text="Chyba pri meraní")
             print(f"Chyba pri meraní rýchlosti: {e}")
         finally:
-            stop_loading[0] = True  
+            stop_loading[0] = True 
+            tlacidlo_meraj.config(state="normal", text="Zmerať rýchlosť", bg="#4CAF50") 
 
     # Obnovenie Rýchlosti Button
     tlacidlo_meraj = tk.Button(info_frame, text="Zmerať rýchlosť", command=lambda: threading.Thread(target=meraj_rychlost).start(), font=('Arial', 12), bg="#4CAF50", fg="white")
